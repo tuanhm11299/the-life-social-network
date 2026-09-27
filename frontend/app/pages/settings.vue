@@ -4,7 +4,7 @@ import type { Form, FormSubmitEvent } from '@nuxt/ui'
 import { accountApi } from '~/api/account'
 import { useAuthStore } from '~/stores/auth'
 
-useHead({ title: 'Settings · InstaLite' })
+useHead({ title: 'Settings · The Life' })
 
 const auth = useAuthStore()
 const toast = useToast()

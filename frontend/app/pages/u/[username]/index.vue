@@ -40,7 +40,7 @@ watch(username, () => {
 }, { immediate: true })
 
 useHead(() => ({
-  title: profile.value ? `${profile.value.displayName} (@${profile.value.username}) · InstaLite` : 'InstaLite',
+  title: profile.value ? `${profile.value.displayName} (@${profile.value.username}) · The Life` : 'The Life',
 }))
 
 function onFollowChange(status: FollowStatus) {

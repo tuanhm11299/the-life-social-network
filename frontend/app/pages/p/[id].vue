@@ -29,7 +29,7 @@ async function load() {
 watch(postId, load, { immediate: true })
 
 useHead(() => ({
-  title: post.value ? `${post.value.author.displayName} on InstaLite` : 'Post · InstaLite',
+  title: post.value ? `${post.value.author.displayName} on The Life` : 'Post · The Life',
 }))
 
 function onDeleted() {

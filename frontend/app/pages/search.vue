@@ -2,7 +2,7 @@
 import { usersApi } from '~/api/users'
 import type { UserListItem } from '~/types/api'
 
-useHead({ title: 'Search · InstaLite' })
+useHead({ title: 'Search · The Life' })
 
 const term = ref('')
 const results = ref<UserListItem[]>([])

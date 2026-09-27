@@ -6,7 +6,7 @@ obj/
 TestResults/
 
 # Uploaded files (local file storage)
-backend/src/InstaLite.Api/uploads/
+backend/src/TheLife.Api/uploads/
 
 # Node / Nuxt
 node_modules/

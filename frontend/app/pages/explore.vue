@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { postsApi } from '~/api/posts'
 
-useHead({ title: 'Explore · InstaLite' })
+useHead({ title: 'Explore · The Life' })
 
 // Popular posts from people you don't follow yet.
 const { items: posts, loading, hasMore, error, loadMore } = useInfiniteList(cursor => postsApi.explore(cursor))

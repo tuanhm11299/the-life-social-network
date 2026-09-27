@@ -4,7 +4,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 import { useAuthStore } from '~/stores/auth'
 
 definePageMeta({ layout: 'auth', public: true })
-useHead({ title: 'Log in · InstaLite' })
+useHead({ title: 'Log in · The Life' })
 
 const auth = useAuthStore()
 const route = useRoute()
@@ -53,7 +53,7 @@ function useDemoAccount() {
 <template>
   <UCard :ui="{ body: 'p-8 sm:p-10' }">
     <div class="mb-8 text-center">
-      <span class="font-logo text-5xl text-highlighted">InstaLite</span>
+      <span class="font-logo text-4xl font-bold tracking-tight text-highlighted">The Life</span>
       <p class="mt-2 text-sm text-muted">Sign in to see photos and stories from your friends.</p>
     </div>
 

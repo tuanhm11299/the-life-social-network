@@ -4,6 +4,6 @@
     <div class="w-full max-w-sm">
       <slot />
     </div>
-    <p class="mt-8 text-xs text-dimmed">InstaLite · a small Instagram-style demo app</p>
+    <p class="mt-8 text-xs text-dimmed">The Life · a small photo-sharing demo app</p>
   </div>
 </template>

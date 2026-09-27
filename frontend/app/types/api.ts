@@ -1,5 +1,5 @@
 // TypeScript shapes of the JSON returned by the .NET API.
-// They mirror the C# DTO records in backend/src/InstaLite.Application/Features/**.
+// They mirror the C# DTO records in backend/src/TheLife.Application/Features/**.
 // Dates are ISO-8601 strings in UTC (e.g. "2026-09-23T04:58:34.66Z").
 
 export interface UserSummary {

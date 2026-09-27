@@ -1,5 +1,5 @@
 // Client-side checks for images before uploading. The API checks again; these just give faster feedback.
-// Keep in sync with backend/src/InstaLite.Application/Common/Files/ImageRules.cs.
+// Keep in sync with backend/src/TheLife.Application/Common/Files/ImageRules.cs.
 
 export const MAX_IMAGE_SIZE_BYTES = 10 * 1024 * 1024
 export const MAX_IMAGES_PER_POST = 10

@@ -2,7 +2,8 @@
 export default defineAppConfig({
   ui: {
     colors: {
-      primary: 'pink',
+      // Teal matches the brand gradient in assets/css/main.css (#14b8a6 is Tailwind's teal-500).
+      primary: 'teal',
       neutral: 'zinc',
     },
   },

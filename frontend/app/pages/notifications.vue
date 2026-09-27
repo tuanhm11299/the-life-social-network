@@ -3,7 +3,7 @@ import { notificationsApi } from '~/api/notifications'
 import { useNotificationsStore } from '~/stores/notifications'
 import type { AppNotification } from '~/types/api'
 
-useHead({ title: 'Notifications · InstaLite' })
+useHead({ title: 'Notifications · The Life' })
 
 const notificationsStore = useNotificationsStore()
 const { items: notifications, loading, hasMore, loadMore } = useInfiniteList(cursor => notificationsApi.list(cursor))
