@@ -64,6 +64,8 @@ Endpoints inject `ICommandHandler<TCommand, TResponse>` directly (`Api/Endpoints
 - Every backend change keeps `dotnet test` green; every frontend change keeps `npm run typecheck` green.
 - New features follow the recipe in `docs/architecture.md`; record notable design decisions as ADRs in `docs/adr/`.
 - Tick roadmap checkboxes and add a line to the progress log in `docs/roadmap.md` when an item is done.
+- Agent skills (.NET, EF Core, tests, Vue, Nuxt, Nuxt UI) are copied into `.claude/skills/`, pinned to upstream
+  commits: see `.claude/skills/README.md` for sources and how to update them. This file wins over a skill.
 
 ## Status (2026-09-23)
 
