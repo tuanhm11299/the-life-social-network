@@ -1,6 +1,6 @@
-# InstaLite roadmap
+# The Life roadmap
 
-A plan for making InstaLite better **and** growing as an engineer. Each phase adds something users would notice
+A plan for making The Life better **and** growing as an engineer. Each phase adds something users would notice
 and teaches one core engineering skill. Phases build on each other, so the order matters: CI and tests first make
 every later change safer.
 
@@ -24,7 +24,7 @@ Tick items off as you go (`- [x]`). Each item says where in the code to start an
 - [ ] **Strip photo metadata (EXIF) on upload.**
   `LocalFileStorage.SaveImageAsync` currently saves the original bytes, so photos taken on phones can leak the
   owner's GPS location. Re-encode images with [ImageSharp](https://github.com/SixLabors/ImageSharp) before saving.
-  *Start:* `backend/src/InstaLite.Infrastructure/Storage/LocalFileStorage.cs`.
+  *Start:* `backend/src/TheLife.Infrastructure/Storage/LocalFileStorage.cs`.
   *Done when:* an uploaded photo with GPS data comes back without any EXIF, proven by a test.
 - [ ] **Resize images and create thumbnails** (e.g. 1080px for the feed, 320px for grids).
   Grids (`PostGrid.vue`) currently download full-size photos. Add a thumbnail URL to `PostDto`.
@@ -121,3 +121,4 @@ For each feature, write a short decision record in `docs/adr/` (context → opti
 | Date | Item | What I learned |
 |------|------|----------------|
 | 2026-09-23 | MVP shipped (PR #1) | Clean Architecture + vertical slices, JWT with refresh-token rotation, Testcontainers |
+| 2026-09-27 | Renamed InstaLite → The Life ([ADR 0001](adr/0001-rename-to-the-life.md)) | "Insta" in a product name is a trademark risk; renaming early is cheap, `git mv` keeps history |

@@ -26,7 +26,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'InstaLite',
+      title: 'The Life',
       meta: [
         // viewport-fit=cover lets the bottom navigation use the space around the iPhone home indicator.
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },

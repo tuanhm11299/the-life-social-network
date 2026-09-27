@@ -9,7 +9,7 @@ export interface ApiRequestOptions {
 }
 
 /**
- * Calls the InstaLite API as the signed-in user.
+ * Calls The Life API as the signed-in user.
  *
  *  1. Adds the "Authorization: Bearer <access token>" header.
  *  2. If the API answers 401 (the access token expired), asks for a new one

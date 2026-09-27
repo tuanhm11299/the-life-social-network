@@ -2,7 +2,7 @@
 import { postsApi } from '~/api/posts'
 import { useAuthStore } from '~/stores/auth'
 
-useHead({ title: 'InstaLite' })
+useHead({ title: 'The Life' })
 
 const auth = useAuthStore()
 const createPost = useCreatePost()
@@ -40,7 +40,7 @@ onMounted(loadMore)
       <div v-if="!loading && !hasMore && posts.length === 0" class="px-4 py-10">
         <UEmpty
           icon="i-ph-camera"
-          title="Welcome to InstaLite"
+          title="Welcome to The Life"
           description="Follow people to see their photos here, or share your first post."
           :actions="[{ label: 'Share a photo', icon: 'i-ph-plus-square', onClick: createPost.open }]"
         />

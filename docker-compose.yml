@@ -4,17 +4,17 @@
 services:
   postgres:
     image: postgres:17-alpine
-    container_name: instalite-postgres
+    container_name: thelife-postgres
     environment:
-      POSTGRES_DB: instalite
-      POSTGRES_USER: instalite
-      POSTGRES_PASSWORD: instalite
+      POSTGRES_DB: thelife
+      POSTGRES_USER: thelife
+      POSTGRES_PASSWORD: thelife
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U instalite -d instalite"]
+      test: ["CMD-SHELL", "pg_isready -U thelife -d thelife"]
       interval: 5s
       timeout: 5s
       retries: 10

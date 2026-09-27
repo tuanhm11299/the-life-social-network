@@ -2,13 +2,17 @@
 @import "@nuxt/ui";
 
 @theme {
-  /* Script font for the "InstaLite" logo. @nuxt/fonts downloads it automatically. */
-  --font-logo: "Grand Hotel", cursive;
+  /* Font for the "The Life" wordmark and the TL mark. @nuxt/fonts downloads it automatically. */
+  --font-logo: "Outfit", sans-serif;
+
+  /* Brand gradient (teal to green): story ring, TL mark and favicon. */
+  --color-brand-from: #14b8a6;
+  --color-brand-to: #22c55e;
 }
 
-/* Colored ring around avatars that have unseen stories (Instagram style gradient). */
+/* Colored ring around avatars that have unseen stories (brand gradient). */
 .story-ring {
-  background: conic-gradient(from 200deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75);
+  background: conic-gradient(from 200deg, var(--color-brand-from), var(--color-brand-to), var(--color-brand-from));
 }
 
 /* Big heart that pops up when a photo is double-tapped. */

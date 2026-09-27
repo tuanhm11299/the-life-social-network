@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { postsApi } from '~/api/posts'
 
-useHead({ title: 'Saved · InstaLite' })
+useHead({ title: 'Saved · The Life' })
 
 const { items: posts, loading, hasMore, loadMore } = useInfiniteList(cursor => postsApi.saved(cursor))
 onMounted(loadMore)

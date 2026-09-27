@@ -25,8 +25,8 @@ function iconFor(item: NavItem) {
   >
     <div class="mb-6 flex h-10 items-center px-3">
       <AppLogo class="hidden xl:block" />
-      <NuxtLink to="/" class="xl:hidden" aria-label="InstaLite home">
-        <UIcon name="i-ph-instagram-logo" class="size-7 text-highlighted" />
+      <NuxtLink to="/" class="xl:hidden" aria-label="The Life home">
+        <AppMark />
       </NuxtLink>
     </div>
 

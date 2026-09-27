@@ -1,7 +1,8 @@
-# InstaLite
+# The Life
 
 A small, readable Instagram-style app: share photos, follow people, like, comment, save posts and post 24-hour stories.
 It works on desktop and phone browsers.
+Not affiliated with Instagram or Meta.
 
 | Part     | Tech |
 |----------|------|
@@ -38,7 +39,7 @@ docker compose up -d
 
 # 2. Start the API  →  http://localhost:5080  (API docs at http://localhost:5080/scalar)
 cd backend
-dotnet run --project src/InstaLite.Api
+dotnet run --project src/TheLife.Api
 
 # 3. In another terminal, start the web app  →  http://localhost:3000
 cd frontend
@@ -55,17 +56,17 @@ To start again from an empty database: `docker compose down -v`, then `docker co
 ## Project structure
 
 ```
-instalite/
+the-life-social-network/
 ├── docker-compose.yml          PostgreSQL for local development
 ├── docs/architecture.md        How the code is organised + how to add features
 ├── docs/roadmap.md             What to build next, phase by phase
 ├── backend/
 │   ├── src/
-│   │   ├── InstaLite.Domain/          Entities and business rules (no dependencies)
-│   │   ├── InstaLite.Application/     Use cases: Features/<Area>/<UseCase>.cs  (commands & queries)
-│   │   ├── InstaLite.Infrastructure/  Database (EF Core), JWT, password hashing, file storage
-│   │   └── InstaLite.Api/             HTTP endpoints, error handling, Program.cs
-│   └── tests/InstaLite.Tests/         Domain unit tests + API tests against real PostgreSQL
+│   │   ├── TheLife.Domain/          Entities and business rules (no dependencies)
+│   │   ├── TheLife.Application/     Use cases: Features/<Area>/<UseCase>.cs  (commands & queries)
+│   │   ├── TheLife.Infrastructure/  Database (EF Core), JWT, password hashing, file storage
+│   │   └── TheLife.Api/             HTTP endpoints, error handling, Program.cs
+│   └── tests/TheLife.Tests/         Domain unit tests + API tests against real PostgreSQL
 └── frontend/
     ├── app/
     │   ├── api/            One file per backend area: typed functions that call the API
@@ -98,7 +99,7 @@ npm run typecheck
 
 ## Configuration
 
-Backend settings live in `backend/src/InstaLite.Api/appsettings.json` (overridden by `appsettings.Development.json` in development).
+Backend settings live in `backend/src/TheLife.Api/appsettings.json` (overridden by `appsettings.Development.json` in development).
 Any setting can also come from an environment variable, e.g. `Jwt__SigningKey`, `ConnectionStrings__Database`.
 
 | Setting | What it does |

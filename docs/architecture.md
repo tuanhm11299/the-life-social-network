@@ -1,4 +1,4 @@
-# InstaLite architecture guide
+# The Life architecture guide
 
 This guide explains how the code is organised and walks through adding a feature, so you can change the app with confidence.
 
@@ -41,10 +41,10 @@ Because everything comes from one origin, CORS is not involved and the http-only
 
 ```mermaid
 flowchart TB
-    Api["InstaLite.Api<br/>HTTP endpoints"] --> Application
+    Api["TheLife.Api<br/>HTTP endpoints"] --> Application
     Api --> Infrastructure
-    Infrastructure["InstaLite.Infrastructure<br/>EF Core, JWT, files"] --> Application
-    Application["InstaLite.Application<br/>use cases (feature slices)"] --> Domain["InstaLite.Domain<br/>entities + rules"]
+    Infrastructure["TheLife.Infrastructure<br/>EF Core, JWT, files"] --> Application
+    Application["TheLife.Application<br/>use cases (feature slices)"] --> Domain["TheLife.Domain<br/>entities + rules"]
 ```
 
 Arrows mean "depends on". The important rule is that **the inner layers know nothing about the outer ones**:
@@ -61,7 +61,7 @@ Arrows mean "depends on". The important rule is that **the inner layers know not
 
 ### Feature slices and CQRS
 
-Every use case lives in **one file** under `backend/src/InstaLite.Application/Features/<Area>/`. Open the file and you see the whole feature:
+Every use case lives in **one file** under `backend/src/TheLife.Application/Features/<Area>/`. Open the file and you see the whole feature:
 
 ```csharp
 // Features/Likes/LikePost.cs
@@ -140,7 +140,7 @@ sequenceDiagram
     participant B as Browser
     participant A as API
     B->>A: POST /api/auth/login {login, password}
-    A-->>B: 200 {accessToken, user} + Set-Cookie: instalite_refresh (http-only)
+    A-->>B: 200 {accessToken, user} + Set-Cookie: thelife_refresh (http-only)
     B->>A: GET /api/posts/feed  (Authorization: Bearer accessToken)
     A-->>B: 200
     Note over B,A: 15 minutes later the access token expires
@@ -173,11 +173,11 @@ After changing an entity or configuration, create a migration (from `backend/`):
 
 ```bash
 dotnet tool restore        # once: installs the local "dotnet ef" tool
-dotnet ef migrations add <DescriptiveName> --project src/InstaLite.Infrastructure --startup-project src/InstaLite.Api --output-dir Persistence/Migrations
+dotnet ef migrations add <DescriptiveName> --project src/TheLife.Infrastructure --startup-project src/TheLife.Api --output-dir Persistence/Migrations
 ```
 
 In development the migration is applied automatically on the next start (`Database:ApplyMigrationsOnStartup`).
-To apply manually: `dotnet ef database update --project src/InstaLite.Infrastructure --startup-project src/InstaLite.Api`.
+To apply manually: `dotnet ef database update --project src/TheLife.Infrastructure --startup-project src/TheLife.Api`.
 
 ### Pagination
 
@@ -238,7 +238,7 @@ Example: **let users pin a post to the top of their profile.**
 
 ### 1. Domain: add the data and the rule
 
-`backend/src/InstaLite.Domain/Posts/Post.cs`
+`backend/src/TheLife.Domain/Posts/Post.cs`
 
 ```csharp
 public DateTime? PinnedAt { get; private set; }
@@ -251,22 +251,22 @@ public void Unpin() => PinnedAt = null;
 
 ```bash
 cd backend
-dotnet ef migrations add AddPostPinning --project src/InstaLite.Infrastructure --startup-project src/InstaLite.Api --output-dir Persistence/Migrations
+dotnet ef migrations add AddPostPinning --project src/TheLife.Infrastructure --startup-project src/TheLife.Api --output-dir Persistence/Migrations
 ```
 
 (Add an index in `PostConfiguration` if you will filter or sort by the new column.)
 
 ### 3. Application: add the use case
 
-Create `backend/src/InstaLite.Application/Features/Posts/PinPost.cs`:
+Create `backend/src/TheLife.Application/Features/Posts/PinPost.cs`:
 
 ```csharp
-using InstaLite.Application.Common.Abstractions;
-using InstaLite.Application.Common.Messaging;
-using InstaLite.Application.Common.Results;
+using TheLife.Application.Common.Abstractions;
+using TheLife.Application.Common.Messaging;
+using TheLife.Application.Common.Results;
 using Microsoft.EntityFrameworkCore;
 
-namespace InstaLite.Application.Features.Posts;
+namespace TheLife.Application.Features.Posts;
 
 public sealed record PinPostCommand(Guid PostId) : ICommand<Unit>;
 
@@ -292,7 +292,7 @@ and `PostProjections`.
 
 ### 4. API: add the endpoint
 
-In `backend/src/InstaLite.Api/Endpoints/PostEndpoints.cs`:
+In `backend/src/TheLife.Api/Endpoints/PostEndpoints.cs`:
 
 ```csharp
 group.MapPost("/{postId:guid}/pin", async (
@@ -306,7 +306,7 @@ Try it at http://localhost:5080/scalar.
 
 ### 5. Test it
 
-Add a test to `backend/tests/InstaLite.Tests/Api/PostTests.cs` (copy an existing one: create users with
+Add a test to `backend/tests/TheLife.Tests/Api/PostTests.cs` (copy an existing one: create users with
 `factory.CreateUserAsync()`, then call the API with `user.Client`). Run `dotnet test`.
 
 ### 6. Frontend
@@ -360,4 +360,4 @@ Click *Authorize* and paste an access token to call protected endpoints.
 | Logged out after restarting the API | Expected if the database was reset; otherwise check the signing key didn't change |
 | `dotnet ef` not found | Run `dotnet tool restore` in `backend/` |
 | Tests fail to start | Docker must be running (Testcontainers starts PostgreSQL) |
-| Want a clean slate | `docker compose down -v` deletes the database; delete `backend/src/InstaLite.Api/uploads/` for images |
+| Want a clean slate | `docker compose down -v` deletes the database; delete `backend/src/TheLife.Api/uploads/` for images |
