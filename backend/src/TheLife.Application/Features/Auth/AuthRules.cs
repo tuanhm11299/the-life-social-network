@@ -9,7 +9,7 @@ public static class AuthRules
     public const int PasswordMinLength = 8;
     public const int PasswordMaxLength = 100;
 
-    /// <summary>3–30 characters: letters, numbers, dots and underscores (like Instagram).</summary>
+    /// <summary>3–30 characters: letters, numbers, dots and underscores, so usernames are easy to type and read in URLs.</summary>
     public static IRuleBuilderOptions<T, string> ValidUsername<T>(this IRuleBuilder<T, string> rule) =>
         rule
             .NotEmpty().WithMessage("Username is required.")

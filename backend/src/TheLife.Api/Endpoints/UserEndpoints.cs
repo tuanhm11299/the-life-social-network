@@ -8,7 +8,7 @@ using TheLife.Application.Features.Users;
 
 namespace TheLife.Api.Endpoints;
 
-/// <summary>Profiles, search, suggestions and following. Users are addressed by username, like instagram.com/jane.</summary>
+/// <summary>Profiles, search, suggestions and following. Users are addressed by username (/api/users/jane), not by id.</summary>
 internal static class UserEndpoints
 {
     public static void MapUserEndpoints(this IEndpointRouteBuilder app)

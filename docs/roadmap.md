@@ -121,4 +121,4 @@ For each feature, write a short decision record in `docs/adr/` (context → opti
 | Date | Item | What I learned |
 |------|------|----------------|
 | 2026-09-23 | MVP shipped (PR #1) | Clean Architecture + vertical slices, JWT with refresh-token rotation, Testcontainers |
-| 2026-09-27 | Renamed InstaLite → The Life ([ADR 0001](adr/0001-rename-to-the-life.md)) | "Insta" in a product name is a trademark risk; renaming early is cheap, `git mv` keeps history |
+| 2026-09-27 | Renamed the app to The Life ([ADR 0001](adr/0001-rename-to-the-life.md)) | Check a product name against existing trademarks before building on it; renaming early is cheap, `git mv` keeps history |

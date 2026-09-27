@@ -1,8 +1,7 @@
 # The Life
 
-A small, readable Instagram-style app: share photos, follow people, like, comment, save posts and post 24-hour stories.
+A small, readable photo-sharing social network: share photos, follow people, like, comment, save posts and post 24-hour stories.
 It works on desktop and phone browsers.
-Not affiliated with Instagram or Meta.
 
 | Part     | Tech |
 |----------|------|

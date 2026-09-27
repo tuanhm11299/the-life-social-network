@@ -42,7 +42,7 @@ export function useNavigation() {
   /** Desktop sidebar (profile is rendered separately because it shows the avatar). */
   const sidebarItems = computed<NavItem[]>(() => [home, search, explore, notificationsItem.value, create])
 
-  /** Phone bottom bar. Notifications live in the top bar on phones, like on Instagram. */
+  /** Phone bottom bar. Notifications live in the top bar on phones, which keeps the bottom bar to five items. */
   const bottomBarItems: NavItem[] = [home, search, create, explore]
 
   /** The "More" menu: less frequent destinations. */
