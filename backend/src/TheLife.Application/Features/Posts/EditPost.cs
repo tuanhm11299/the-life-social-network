@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TheLife.Application.Features.Posts;
 
-/// <summary>Only the caption can be edited; photos are fixed once posted (same as Instagram).</summary>
+/// <summary>Only the caption can be edited; photos are fixed once posted, so likes and comments always refer to the same pictures.</summary>
 public sealed record EditPostCommand(Guid PostId, string? Caption) : ICommand<PostDto>;
 
 public sealed class EditPostValidator : AbstractValidator<EditPostCommand>

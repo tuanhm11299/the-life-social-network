@@ -28,7 +28,7 @@ export function usePostActions(post: Ref<Post>) {
     }
   }
 
-  /** Double-tapping a photo only ever likes it (it never removes a like), like on Instagram. */
+  /** Double-tapping a photo only ever likes it (it never removes a like), so a second double-tap can't undo it by accident. */
   async function likeFromDoubleTap() {
     if (!post.value.isLikedByMe) await toggleLike()
   }

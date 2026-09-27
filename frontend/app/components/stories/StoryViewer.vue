@@ -37,7 +37,7 @@ const isOpen = computed({
 
 // ---- Navigation ------------------------------------------------------------------------------
 
-/** Start with the first story not seen yet, like Instagram. */
+/** Start with the first story not seen yet, so people don't rewatch stories they already saw. */
 function firstUnseenIndex(item: StoryTrayItem | undefined) {
   const index = item?.stories.findIndex(s => !s.isViewedByMe) ?? -1
   return Math.max(0, index)

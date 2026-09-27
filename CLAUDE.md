@@ -1,6 +1,6 @@
 # CLAUDE.md: context for AI-assisted sessions on The Life
 
-The Life is a lite Instagram clone built as a learning project: .NET 10 API + PostgreSQL, Nuxt 4 + Nuxt UI web app
+The Life is a small photo-sharing social network built as a learning project: .NET 10 API + PostgreSQL, Nuxt 4 + Nuxt UI web app
 (desktop and phone browsers). **Top priority: code a human can read, fix and extend without AI help.**
 Match the existing style: small files, plain names, comments that explain *why*, no clever abstractions.
 
@@ -45,8 +45,8 @@ Endpoints inject `ICommandHandler<TCommand, TResponse>` directly (`Api/Endpoints
   cleanly (a hot restart once left `runtimeConfig.apiUrl` undefined). A stale `nuxt dev` can keep port 3000.
 - A running API locks DLLs, so stop it before `dotnet test`, `dotnet build` or `dotnet ef`.
 - EF Core Relational is pinned to 10.0.12 in Infrastructure to avoid a version conflict with Npgsql's dependency.
-- Renamed from InstaLite (ADR 0001). A leftover `instalite` database volume can't be used with the new `thelife`
-  user: `docker compose down -v` and start again (demo data re-seeds).
+- The app was renamed (ADR 0001). A database volume created before that uses an old user name and can't be used with `thelife`:
+  run `docker compose down -v` and start again (demo data re-seeds).
 - Uploaded images are currently saved as-is (EXIF/GPS **not** stripped): roadmap Phase 0 fixes this.
 - **macOS differences** (nothing here is committed except this note; Windows is unaffected): the .NET SDK sits in
   `~/.dotnet`, exported as `DOTNET_ROOT` and added to `PATH` in `~/.zshrc`. Host port 5432 belongs to another

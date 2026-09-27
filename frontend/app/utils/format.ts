@@ -1,6 +1,6 @@
 // Display helpers. Auto-imported by Nuxt (utils/ folder).
 
-/** Short relative time like Instagram: "now", "5m", "3h", "2d", "4w", then a date. */
+/** Short relative time for timestamps: "now", "5m", "3h", "2d", "4w", then a date. */
 export function timeAgo(isoDate: string): string {
   const seconds = Math.max(0, (Date.now() - new Date(isoDate).getTime()) / 1000)
 
