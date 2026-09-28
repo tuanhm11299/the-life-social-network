@@ -63,7 +63,8 @@ Endpoints inject `ICommandHandler<TCommand, TResponse>` directly (`Api/Endpoints
 
 - Work on a branch → push → open a PR → merge into `main` with a merge commit (the owner has asked for this flow).
   End commit messages with the Co-Authored-By line required by the session.
-- Every backend change keeps `dotnet test` green; every frontend change keeps `npm run typecheck` green.
+- Every backend change keeps `dotnet test` green; every frontend change keeps `npm run typecheck` and `npm run build` green.
+  CI (`.github/workflows/ci.yml`) runs all three on every PR, and `main` requires them to pass.
 - New features follow the recipe in `docs/architecture.md`; record notable design decisions as ADRs in `docs/adr/`.
 - Tick roadmap checkboxes and add a line to the progress log in `docs/roadmap.md` when an item is done.
 - Agent skills (.NET, EF Core, tests, Vue, Nuxt, Nuxt UI) are copied into `.claude/skills/`, pinned to upstream

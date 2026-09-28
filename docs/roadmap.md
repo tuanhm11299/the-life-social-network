@@ -29,7 +29,7 @@ Tick items off as you go (`- [x]`). Each item says where in the code to start an
 - [x] **Resize images and create thumbnails** (e.g. 1080px for the feed, 320px for grids).
   Grids (`PostGrid.vue`) currently download full-size photos. Add a thumbnail URL to `PostDto`.
   *Done when:* the explore page transfers under 1 MB on first load (check in the browser's Network tab / Lighthouse).
-- [ ] **Continuous integration with GitHub Actions**: on every pull request run `dotnet test`
+- [x] **Continuous integration with GitHub Actions**: on every pull request run `dotnet test`
   (Testcontainers works on Linux runners), `npm run typecheck` and `npm run build`.
   *Done when:* a PR cannot be merged while checks are red (branch protection on `main`).
 
@@ -124,3 +124,4 @@ For each feature, write a short decision record in `docs/adr/` (context → opti
 | 2026-09-27 | Renamed the app to The Life ([ADR 0001](adr/0001-rename-to-the-life.md)) | Check a product name against existing trademarks before building on it; renaming early is cheap, `git mv` keeps history |
 | 2026-09-28 | Strip photo metadata on upload ([ADR 0002](adr/0002-image-processing-with-imagesharp.md)) | Turn photos upright *before* removing EXIF or they show sideways; ImageSharp 4 needs a license key, so 3.1 is pinned; check pixel count before decoding |
 | 2026-09-28 | Resize images and create thumbnails | 24 grid images went from ~3.5 MB to ~0.4 MB; a migration can backfill old rows with SQL (`thumbnail_url = url`); never enlarge small images |
+| 2026-09-28 | CI with GitHub Actions (`.github/workflows/ci.yml`) | Testcontainers works unchanged on GitHub's Ubuntu runners; branch protection needs each check to have run once before it can be required |
