@@ -70,8 +70,10 @@ Endpoints inject `ICommandHandler<TCommand, TResponse>` directly (`Api/Endpoints
 - Agent skills (.NET, EF Core, tests, Vue, Nuxt, Nuxt UI) are copied into `.claude/skills/`, pinned to upstream
   commits: see `.claude/skills/README.md` for sources and how to update them. This file wins over a skill.
 
-## Status (2026-09-23)
+## Status (2026-09-29)
 
 - MVP complete and merged (PR #1): auth, profiles, posts with carousel, feed, likes, comments, saves, stories,
   explore, search, notifications, settings; responsive UI verified in Chrome at desktop and phone widths.
-- Roadmap merged (PR #2). **Next up: roadmap Phase 0**: strip EXIF on upload, thumbnails, GitHub Actions CI.
+- Roadmap Phase 0 done: metadata stripped on upload (PR #8), resized images + grid thumbnails (PR #9),
+  GitHub Actions CI with branch protection on `main` (PR #10).
+- **Next up: roadmap Phase 1**: Vitest unit tests, Playwright end-to-end tests, accessibility pass.
