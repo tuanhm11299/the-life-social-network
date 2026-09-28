@@ -1,5 +1,7 @@
 # The Life
 
+[![CI](https://github.com/tuanhm11299/the-life-social-network/actions/workflows/ci.yml/badge.svg)](https://github.com/tuanhm11299/the-life-social-network/actions/workflows/ci.yml)
+
 A small, readable photo-sharing social network: share photos, follow people, like, comment, save posts and post 24-hour stories.
 It works on desktop and phone browsers.
 
