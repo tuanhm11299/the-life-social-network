@@ -22,12 +22,12 @@ Tick items off as you go (`- [x]`). Each item says where in the code to start an
 **Skill:** privacy by design, performance budgets, automation.
 
 - [x] **Strip photo metadata (EXIF) on upload.**
-  `LocalFileStorage.SaveImageAsync` currently saves the original bytes, so photos taken on phones can leak the
-  owner's GPS location. Re-encode images with [ImageSharp](https://github.com/SixLabors/ImageSharp) before saving.
+  `LocalFileStorage.SaveImageAsync` saved the original bytes, so photos taken on phones could leak the
+  owner's GPS location. Images are now re-encoded with [ImageSharp](https://github.com/SixLabors/ImageSharp) before saving.
   *Start:* `backend/src/TheLife.Infrastructure/Storage/LocalFileStorage.cs`.
   *Done when:* an uploaded photo with GPS data comes back without any EXIF, proven by a test.
 - [x] **Resize images and create thumbnails** (e.g. 1080px for the feed, 320px for grids).
-  Grids (`PostGrid.vue`) currently download full-size photos. Add a thumbnail URL to `PostDto`.
+  Grids (`PostGrid.vue`) downloaded full-size photos; they now use `PostDto.ThumbnailUrl`.
   *Done when:* the explore page transfers under 1 MB on first load (check in the browser's Network tab / Lighthouse).
 - [x] **Continuous integration with GitHub Actions**: on every pull request run `dotnet test`
   (Testcontainers works on Linux runners), `npm run typecheck` and `npm run build`.
