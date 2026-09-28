@@ -14,7 +14,7 @@ defineProps<{ posts: Post[] }>()
       class="group relative block aspect-square overflow-hidden bg-muted"
       :aria-label="`Post by ${post.author.username}`"
     >
-      <img :src="post.imageUrls[0]" alt="" class="size-full object-cover" loading="lazy">
+      <img :src="post.thumbnailUrl" alt="" class="size-full object-cover" loading="lazy">
 
       <UIcon
         v-if="post.imageUrls.length > 1"

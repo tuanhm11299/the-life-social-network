@@ -37,8 +37,11 @@ public interface ITokenService
 
 public interface IFileStorage
 {
-    /// <summary>Stores an image and returns the public URL to show it, e.g. "/uploads/posts/abc.jpg".</summary>
-    Task<string> SaveImageAsync(FileUpload file, string folder, CancellationToken cancellationToken);
+    /// <summary>
+    /// Stores a cleaned copy of an image (no metadata such as GPS location, at most <paramref name="size"/>)
+    /// and returns the public URL to show it, e.g. "/uploads/posts/abc.jpg".
+    /// </summary>
+    Task<string> SaveImageAsync(FileUpload file, string folder, ImageSize size, CancellationToken cancellationToken);
 
     /// <summary>Deletes a stored file. URLs not owned by this storage (e.g. external demo images) are ignored.</summary>
     Task DeleteAsync(string url, CancellationToken cancellationToken);

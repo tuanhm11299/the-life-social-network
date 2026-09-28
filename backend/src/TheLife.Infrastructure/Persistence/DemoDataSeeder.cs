@@ -93,11 +93,13 @@ public sealed class DemoDataSeeder(AppDbContext db, IPasswordHasher passwordHash
             for (var i = 0; i < postCount; i++)
             {
                 var imageCount = random.Next(1, 4);
-                var imageUrls = Enumerable.Range(0, imageCount)
-                    .Select(n => $"https://picsum.photos/seed/{user.Username}-{i}-{n}/1080/1080")
+                var images = Enumerable.Range(0, imageCount)
+                    .Select(n => new NewPostImage(
+                        $"https://picsum.photos/seed/{user.Username}-{i}-{n}/1080/1080",
+                        $"https://picsum.photos/seed/{user.Username}-{i}-{n}/320/320"))
                     .ToList();
                 var createdAt = now.AddHours(-random.Next(1, 24 * 14));
-                posts.Add(Post.Create(user.Id, Captions[random.Next(Captions.Length)], imageUrls, createdAt));
+                posts.Add(Post.Create(user.Id, Captions[random.Next(Captions.Length)], images, createdAt));
             }
         }
         db.Posts.AddRange(posts);

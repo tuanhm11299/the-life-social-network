@@ -33,6 +33,7 @@ internal sealed class PostImageConfiguration : IEntityTypeConfiguration<PostImag
     {
         builder.HasKey(i => i.Id);
         builder.Property(i => i.Url).HasMaxLength(500).IsRequired();
+        builder.Property(i => i.ThumbnailUrl).HasMaxLength(500).IsRequired();
         builder.HasIndex(i => new { i.PostId, i.Position }).IsUnique();
     }
 }

@@ -27,7 +27,7 @@ public sealed class CreateStoryHandler(
 {
     public async Task<Result<StoryDto>> Handle(CreateStoryCommand command, CancellationToken cancellationToken)
     {
-        var imageUrl = await fileStorage.SaveImageAsync(command.Image!, "stories", cancellationToken);
+        var imageUrl = await fileStorage.SaveImageAsync(command.Image!, "stories", ImageSize.Photo, cancellationToken);
 
         var story = Story.Create(currentUser.Id, imageUrl, clock.GetUtcNow().UtcDateTime);
         db.Stories.Add(story);

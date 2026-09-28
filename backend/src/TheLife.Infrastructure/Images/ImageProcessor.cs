@@ -15,7 +15,8 @@ public sealed record ProcessedImage(Stream Content, string Extension);
 /// <summary>
 /// Cleans uploaded images before they are stored. Photos taken on phones carry metadata (EXIF, XMP, IPTC)
 /// such as the GPS location where they were taken, the camera and the time, so we decode the image and
-/// write a fresh file without it. Every storage implementation should call this before saving.
+/// write a fresh file without it, shrunk to the size it will be shown at.
+/// Every storage implementation should call this before saving.
 /// </summary>
 public static class ImageProcessor
 {
@@ -44,7 +45,7 @@ public static class ImageProcessor
         return configuration;
     }
 
-    public static async Task<ProcessedImage> ProcessAsync(Stream input, CancellationToken cancellationToken)
+    public static async Task<ProcessedImage> ProcessAsync(Stream input, ImageSize size, CancellationToken cancellationToken)
     {
         try
         {
@@ -61,6 +62,7 @@ public static class ImageProcessor
             // Phones store portrait photos sideways plus an "orientation" tag in the EXIF data.
             // Turn the pixels the right way up *before* removing the tag, or the photo would show sideways.
             image.Mutate(x => x.AutoOrient());
+            Shrink(image, size);
             RemoveMetadata(image);
 
             var output = new MemoryStream();
@@ -73,6 +75,21 @@ public static class ImageProcessor
         catch (ImageFormatException)
         {
             throw new InvalidImageException("The file content is not a valid image.");
+        }
+    }
+
+    private static void Shrink(Image image, ImageSize size)
+    {
+        if (size.CropToSquare)
+        {
+            // Cut out the middle square. A picture smaller than the square keeps its size (no blurry enlarging).
+            var side = Math.Min(Math.Min(size.MaxWidth, size.MaxHeight), Math.Min(image.Width, image.Height));
+            image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(side, side), Mode = ResizeMode.Crop }));
+        }
+        else if (image.Width > size.MaxWidth || image.Height > size.MaxHeight)
+        {
+            // Shrink until both sides fit, keeping the shape.
+            image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size.MaxWidth, size.MaxHeight), Mode = ResizeMode.Max }));
         }
     }
 

@@ -36,10 +36,10 @@ public sealed class LocalFileStorage : IFileStorage
     /// <summary>Absolute path of the uploads folder on disk.</summary>
     public string RootDirectory { get; }
 
-    public async Task<string> SaveImageAsync(FileUpload file, string folder, CancellationToken cancellationToken)
+    public async Task<string> SaveImageAsync(FileUpload file, string folder, ImageSize size, CancellationToken cancellationToken)
     {
-        // Re-encode the image without metadata (e.g. GPS location) before anything touches the disk.
-        var image = await ImageProcessor.ProcessAsync(file.Content, cancellationToken);
+        // Shrink and re-encode the image without metadata (e.g. GPS location) before anything touches the disk.
+        var image = await ImageProcessor.ProcessAsync(file.Content, size, cancellationToken);
 
         // Never trust the client's file name: generate our own. The extension comes from the decoded format.
         var fileName = $"{Guid.CreateVersion7():N}{image.Extension}";

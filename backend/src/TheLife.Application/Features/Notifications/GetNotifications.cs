@@ -45,7 +45,7 @@ public sealed class GetNotificationsHandler(IAppDbContext db, ICurrentUser curre
                 n.Type,
                 new UserSummaryDto(n.Actor.Id, n.Actor.Username, n.Actor.DisplayName, n.Actor.AvatarUrl),
                 n.PostId,
-                n.Post == null ? null : n.Post.Images.OrderBy(i => i.Position).Select(i => i.Url).FirstOrDefault(),
+                n.Post == null ? null : n.Post.Images.OrderBy(i => i.Position).Select(i => i.ThumbnailUrl).FirstOrDefault(),
                 n.CommentText,
                 n.CreatedAt,
                 n.IsRead,

@@ -65,6 +65,28 @@ public class PostTests(ApiFactory factory)
     }
 
     [Fact]
+    public async Task Posts_get_a_small_square_thumbnail_that_is_deleted_with_the_post()
+    {
+        var author = await factory.CreateUserAsync();
+        var form = new MultipartFormDataContent
+        {
+            { TestImages.File(TestImages.Plain(1600, 1200), "image/jpeg"), "images", "big.jpg" },
+        };
+
+        var response = await author.Client.PostAsync("/api/posts", form);
+
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        var post = (await response.Content.ReadFromJsonAsync<PostDto>())!;
+        var photo = Image.Identify(await author.Client.GetByteArrayAsync(post.ImageUrls[0]));
+        Assert.Equal((1080, 810), (photo.Width, photo.Height));
+        var thumbnail = Image.Identify(await author.Client.GetByteArrayAsync(post.ThumbnailUrl));
+        Assert.Equal((320, 320), (thumbnail.Width, thumbnail.Height));
+
+        (await author.Client.DeleteAsync($"/api/posts/{post.Id}")).EnsureSuccessStatusCode();
+        Assert.Equal(HttpStatusCode.NotFound, (await author.Client.GetAsync(post.ThumbnailUrl)).StatusCode);
+    }
+
+    [Fact]
     public async Task Broken_images_are_rejected_with_400()
     {
         var author = await factory.CreateUserAsync();
