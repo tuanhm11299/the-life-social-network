@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace TheLife.Tests.Api;
 
@@ -36,6 +38,38 @@ public class PostTests(ApiFactory factory)
         {
             { TestImages.File(Encoding.UTF8.GetBytes("MZ fake exe"), "image/png"), "images", "evil.png" },
         };
+
+        var response = await author.Client.PostAsync("/api/posts", form);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Uploaded_photos_are_stored_without_their_gps_location()
+    {
+        var author = await factory.CreateUserAsync();
+        var form = new MultipartFormDataContent
+        {
+            { TestImages.File(TestImages.PhotoWithLocation(JpegFormat.Instance), "image/jpeg"), "images", "phone.jpg" },
+        };
+
+        var response = await author.Client.PostAsync("/api/posts", form);
+
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        var post = (await response.Content.ReadFromJsonAsync<PostDto>())!;
+        var stored = await author.Client.GetByteArrayAsync(post.ImageUrls[0]);
+        Assert.Null(Image.Identify(stored).Metadata.ExifProfile);
+
+        // Also check the raw bytes, without trusting the image library: every EXIF block starts with "Exif\0\0".
+        Assert.Equal(-1, stored.AsSpan().IndexOf("Exif\0\0"u8));
+    }
+
+    [Fact]
+    public async Task Broken_images_are_rejected_with_400()
+    {
+        var author = await factory.CreateUserAsync();
+        byte[] broken = [0xFF, 0xD8, 0xFF, 0xE0, .. Enumerable.Repeat((byte)0x42, 200)];
+        var form = new MultipartFormDataContent { { TestImages.File(broken, "image/jpeg"), "images", "broken.jpg" } };
 
         var response = await author.Client.PostAsync("/api/posts", form);
 

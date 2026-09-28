@@ -21,7 +21,7 @@ Tick items off as you go (`- [x]`). Each item says where in the code to start an
 
 **Skill:** privacy by design, performance budgets, automation.
 
-- [ ] **Strip photo metadata (EXIF) on upload.**
+- [x] **Strip photo metadata (EXIF) on upload.**
   `LocalFileStorage.SaveImageAsync` currently saves the original bytes, so photos taken on phones can leak the
   owner's GPS location. Re-encode images with [ImageSharp](https://github.com/SixLabors/ImageSharp) before saving.
   *Start:* `backend/src/TheLife.Infrastructure/Storage/LocalFileStorage.cs`.
@@ -122,3 +122,4 @@ For each feature, write a short decision record in `docs/adr/` (context → opti
 |------|------|----------------|
 | 2026-09-23 | MVP shipped (PR #1) | Clean Architecture + vertical slices, JWT with refresh-token rotation, Testcontainers |
 | 2026-09-27 | Renamed the app to The Life ([ADR 0001](adr/0001-rename-to-the-life.md)) | Check a product name against existing trademarks before building on it; renaming early is cheap, `git mv` keeps history |
+| 2026-09-28 | Strip photo metadata on upload ([ADR 0002](adr/0002-image-processing-with-imagesharp.md)) | Turn photos upright *before* removing EXIF or they show sideways; ImageSharp 4 needs a license key, so 3.1 is pinned; check pixel count before decoding |

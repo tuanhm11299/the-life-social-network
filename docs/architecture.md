@@ -53,7 +53,7 @@ Arrows mean "depends on". The important rule is that **the inner layers know not
 |---------|----------|---------|
 | `Domain` | Entities (`User`, `Post`, `Story`…) and their rules, e.g. "a post has 1 to 10 images". | Nothing |
 | `Application` | One file per use case (`Features/Posts/CreatePost.cs`), plus the interfaces it needs (`IAppDbContext`, `IFileStorage`, `ICurrentUser`…). | Domain, EF Core LINQ, FluentValidation |
-| `Infrastructure` | Implementations of those interfaces: `AppDbContext` (PostgreSQL), `JwtTokenService`, `PasswordHasher`, `LocalFileStorage`, migrations, demo data. | Application, Domain |
+| `Infrastructure` | Implementations of those interfaces: `AppDbContext` (PostgreSQL), `JwtTokenService`, `PasswordHasher`, `LocalFileStorage` (which cleans every image with `ImageProcessor` first), migrations, demo data. | Application, Domain |
 | `Api` | Endpoints that turn HTTP into commands/queries and results into HTTP. `Program.cs` wires everything up. | Everything |
 
 > **Pragmatic choice:** the Application layer uses EF Core's `DbSet<T>` through `IAppDbContext` instead of a repository per

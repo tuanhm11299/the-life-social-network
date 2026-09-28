@@ -1,5 +1,6 @@
 using TheLife.Application.Common.Abstractions;
 using TheLife.Application.Common.Files;
+using TheLife.Infrastructure.Images;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
@@ -37,17 +38,19 @@ public sealed class LocalFileStorage : IFileStorage
 
     public async Task<string> SaveImageAsync(FileUpload file, string folder, CancellationToken cancellationToken)
     {
-        // Never trust the client's file name: generate our own and derive the extension from the (validated) type.
-        var extension = ImageRules.ExtensionByContentType[file.ContentType.ToLowerInvariant()];
-        var fileName = $"{Guid.CreateVersion7():N}{extension}";
+        // Re-encode the image without metadata (e.g. GPS location) before anything touches the disk.
+        var image = await ImageProcessor.ProcessAsync(file.Content, cancellationToken);
+
+        // Never trust the client's file name: generate our own. The extension comes from the decoded format.
+        var fileName = $"{Guid.CreateVersion7():N}{image.Extension}";
 
         var directory = Path.Combine(RootDirectory, folder);
         Directory.CreateDirectory(directory);
 
-        file.Content.Position = 0;
+        await using (image.Content)
         await using (var output = File.Create(Path.Combine(directory, fileName)))
         {
-            await file.Content.CopyToAsync(output, cancellationToken);
+            await image.Content.CopyToAsync(output, cancellationToken);
         }
 
         return $"{_publicBasePath}/{folder}/{fileName}";
