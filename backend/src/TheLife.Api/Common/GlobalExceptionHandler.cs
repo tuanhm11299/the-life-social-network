@@ -1,3 +1,4 @@
+using TheLife.Application.Common.Files;
 using TheLife.Domain.Common;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,9 @@ internal sealed class GlobalExceptionHandler(IProblemDetailsService problemDetai
         var (statusCode, detail) = exception switch
         {
             DomainException => (StatusCodes.Status400BadRequest, exception.Message),
+
+            // Validation only checks an upload's first bytes; a broken image is found while it is being decoded.
+            InvalidImageException => (StatusCodes.Status400BadRequest, exception.Message),
             UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Please log in to continue."),
             BadHttpRequestException badRequest => (badRequest.StatusCode, "The request is invalid or too large."),
 
