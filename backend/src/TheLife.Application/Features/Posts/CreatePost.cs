@@ -32,16 +32,24 @@ public sealed class CreatePostHandler(
     public async Task<Result<PostDto>> Handle(CreatePostCommand command, CancellationToken cancellationToken)
     {
         var me = currentUser.Id;
-        var imageUrls = new List<string>();
+        var savedUrls = new List<string>();
+        var images = new List<NewPostImage>();
 
         try
         {
-            foreach (var image in command.Images)
+            // Every photo is stored twice: full size for the feed and a small square for grids.
+            // (The upload is decoded once per size: simpler than sharing one decoded image, and fast enough.)
+            foreach (var upload in command.Images)
             {
-                imageUrls.Add(await fileStorage.SaveImageAsync(image, "posts", cancellationToken));
+                var url = await fileStorage.SaveImageAsync(upload, "posts", ImageSize.Photo, cancellationToken);
+                savedUrls.Add(url);
+                var thumbnailUrl = await fileStorage.SaveImageAsync(upload, "posts/thumbnails", ImageSize.Thumbnail, cancellationToken);
+                savedUrls.Add(thumbnailUrl);
+
+                images.Add(new NewPostImage(url, thumbnailUrl));
             }
 
-            var post = Post.Create(me, command.Caption, imageUrls, clock.GetUtcNow().UtcDateTime);
+            var post = Post.Create(me, command.Caption, images, clock.GetUtcNow().UtcDateTime);
             db.Posts.Add(post);
             await db.SaveChangesAsync(cancellationToken);
 
@@ -54,7 +62,7 @@ public sealed class CreatePostHandler(
         catch
         {
             // Do not leave orphaned files behind when something fails halfway.
-            foreach (var url in imageUrls) await fileStorage.DeleteAsync(url, CancellationToken.None);
+            foreach (var url in savedUrls) await fileStorage.DeleteAsync(url, CancellationToken.None);
             throw;
         }
     }

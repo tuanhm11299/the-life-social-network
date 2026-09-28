@@ -13,13 +13,17 @@ public class PostTests
 {
     private static readonly DateTime Now = new(2026, 1, 1, 12, 0, 0, DateTimeKind.Utc);
 
+    private static NewPostImage Photo(string url) => new(url, $"/thumbnails{url}");
+
     [Fact]
     public void Create_keeps_images_in_the_given_order()
     {
-        var post = Post.Create(Guid.NewGuid(), "  Hello  ", ["/a.jpg", "/b.jpg", "/c.jpg"], Now);
+        var post = Post.Create(Guid.NewGuid(), "  Hello  ", [Photo("/a.jpg"), Photo("/b.jpg"), Photo("/c.jpg")], Now);
 
         Assert.Equal("Hello", post.Caption);
         Assert.Equal(["/a.jpg", "/b.jpg", "/c.jpg"], post.Images.OrderBy(i => i.Position).Select(i => i.Url));
+        Assert.Equal(["/thumbnails/a.jpg", "/thumbnails/b.jpg", "/thumbnails/c.jpg"],
+            post.Images.OrderBy(i => i.Position).Select(i => i.ThumbnailUrl));
         Assert.All(post.Images, image => Assert.Equal(post.Id, image.PostId));
     }
 
@@ -32,7 +36,7 @@ public class PostTests
     [Fact]
     public void Create_allows_at_most_ten_images()
     {
-        var images = Enumerable.Range(0, Post.MaxImages + 1).Select(i => $"/{i}.jpg").ToList();
+        var images = Enumerable.Range(0, Post.MaxImages + 1).Select(i => Photo($"/{i}.jpg")).ToList();
 
         Assert.Throws<DomainException>(() => Post.Create(Guid.NewGuid(), null, images, Now));
     }
@@ -40,7 +44,7 @@ public class PostTests
     [Fact]
     public void EditCaption_rejects_captions_that_are_too_long()
     {
-        var post = Post.Create(Guid.NewGuid(), null, ["/a.jpg"], Now);
+        var post = Post.Create(Guid.NewGuid(), null, [Photo("/a.jpg")], Now);
 
         Assert.Throws<DomainException>(() => post.EditCaption(new string('x', Post.CaptionMaxLength + 1)));
     }

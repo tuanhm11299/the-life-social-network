@@ -15,7 +15,7 @@ Match the existing style: small files, plain names, comments that explain *why*,
 docker compose up -d                                   # PostgreSQL (container thelife-postgres, port 5432)
 cd backend && dotnet run --project src/TheLife.Api   # API on http://localhost:5080, docs at /scalar
 cd frontend && npm run dev                             # web on http://localhost:3000 (proxies /api and /uploads)
-cd backend && dotnet test                              # 50 tests; API tests use Testcontainers (Docker must run)
+cd backend && dotnet test                              # 56 tests; API tests use Testcontainers (Docker must run)
 cd frontend && npm run typecheck                       # must stay clean
 ```
 
@@ -48,7 +48,8 @@ Endpoints inject `ICommandHandler<TCommand, TResponse>` directly (`Api/Endpoints
 - The app was renamed (ADR 0001). A database volume created before that uses an old user name and can't be used with `thelife`:
   run `docker compose down -v` and start again (demo data re-seeds).
 - **ImageSharp is pinned to 3.1.x** (ADR 0002): version 4 fails Release builds without a Six Labors license key.
-  Every upload goes through `Infrastructure/Images/ImageProcessor.cs` (metadata stripped, turned upright).
+  Every upload goes through `Infrastructure/Images/ImageProcessor.cs` (metadata stripped, turned upright, shrunk to an
+  `ImageSize`). Posts store a 320px square thumbnail per image (`PostImage.ThumbnailUrl`, `PostDto.ThumbnailUrl`) for grids.
 - **macOS differences** (nothing here is committed except this note; Windows is unaffected): the .NET SDK sits in
   `~/.dotnet`, exported as `DOTNET_ROOT` and added to `PATH` in `~/.zshrc`. Host port 5432 belongs to another
   project's container, so an untracked `docker-compose.override.yml` publishes PostgreSQL on **5434**

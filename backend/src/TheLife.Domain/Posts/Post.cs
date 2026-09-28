@@ -22,17 +22,17 @@ public sealed class Post : Entity
     public ICollection<Comment> Comments { get; private set; } = [];
     public ICollection<SavedPost> Saves { get; private set; } = [];
 
-    public static Post Create(Guid authorId, string? caption, IReadOnlyList<string> imageUrls, DateTime now)
+    public static Post Create(Guid authorId, string? caption, IReadOnlyList<NewPostImage> images, DateTime now)
     {
-        if (imageUrls.Count == 0) throw new DomainException("A post needs at least one image.");
-        if (imageUrls.Count > MaxImages) throw new DomainException($"A post can have at most {MaxImages} images.");
+        if (images.Count == 0) throw new DomainException("A post needs at least one image.");
+        if (images.Count > MaxImages) throw new DomainException($"A post can have at most {MaxImages} images.");
 
         var post = new Post { AuthorId = authorId, CreatedAt = now };
         post.EditCaption(caption);
 
-        for (var position = 0; position < imageUrls.Count; position++)
+        for (var position = 0; position < images.Count; position++)
         {
-            post.Images.Add(new PostImage(post.Id, imageUrls[position], position));
+            post.Images.Add(new PostImage(post.Id, images[position], position));
         }
 
         return post;

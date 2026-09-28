@@ -3,6 +3,7 @@ using System.Text;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Gif;
+using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Metadata.Profiles.Exif;
 using SixLabors.ImageSharp.Metadata.Profiles.Xmp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -51,6 +52,13 @@ public static class TestImages
         image.Metadata.XmpProfile = new XmpProfile(Encoding.UTF8.GetBytes(Xmp));
 
         return Encode(image, format);
+    }
+
+    /// <summary>A plain JPEG of the given size, without any metadata.</summary>
+    public static byte[] Plain(int width, int height)
+    {
+        using var image = new Image<Rgba32>(width, height, Color.Teal);
+        return Encode(image, JpegFormat.Instance);
     }
 
     /// <summary>An animated GIF with three differently colored frames and a comment.</summary>

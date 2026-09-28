@@ -30,7 +30,7 @@ public sealed class UpdateAvatarHandler(IAppDbContext db, ICurrentUser currentUs
         var oldAvatarUrl = user.AvatarUrl;
         var newAvatarUrl = command.Image is null
             ? null
-            : await fileStorage.SaveImageAsync(command.Image, "avatars", cancellationToken);
+            : await fileStorage.SaveImageAsync(command.Image, "avatars", ImageSize.Avatar, cancellationToken);
 
         user.ChangeAvatar(newAvatarUrl);
         await db.SaveChangesAsync(cancellationToken);

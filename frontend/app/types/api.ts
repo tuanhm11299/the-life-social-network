@@ -46,6 +46,8 @@ export interface Post {
   author: UserSummary
   caption: string
   imageUrls: string[]
+  /** Small square version of the first image, for grids. */
+  thumbnailUrl: string
   createdAt: string
   likeCount: number
   commentCount: number

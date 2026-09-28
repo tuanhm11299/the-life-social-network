@@ -4,12 +4,16 @@ using TheLife.Domain.Posts;
 
 namespace TheLife.Application.Features.Posts;
 
-/// <summary>A post as shown in the feed, on the explore page, in a profile grid and on the post page.</summary>
+/// <summary>
+/// A post as shown in the feed, on the explore page, in a profile grid and on the post page.
+/// <see cref="ThumbnailUrl"/> is a small square of the first image, for grids.
+/// </summary>
 public sealed record PostDto(
     Guid Id,
     UserSummaryDto Author,
     string Caption,
     IReadOnlyList<string> ImageUrls,
+    string ThumbnailUrl,
     DateTime CreatedAt,
     int LikeCount,
     int CommentCount,
@@ -28,6 +32,7 @@ public static class PostProjections
         new UserSummaryDto(post.Author.Id, post.Author.Username, post.Author.DisplayName, post.Author.AvatarUrl),
         post.Caption,
         post.Images.OrderBy(image => image.Position).Select(image => image.Url).ToList(),
+        post.Images.OrderBy(image => image.Position).Select(image => image.ThumbnailUrl).First(),
         post.CreatedAt,
         post.Likes.Count,
         post.Comments.Count,

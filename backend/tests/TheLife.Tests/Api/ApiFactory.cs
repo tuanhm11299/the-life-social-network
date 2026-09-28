@@ -68,7 +68,7 @@ public sealed class ApiCollection : ICollectionFixture<ApiFactory>
 // Minimal copies of the API's JSON responses, just the fields the tests look at.
 public sealed record AuthResponseDto(string AccessToken, UserDto User);
 public sealed record UserDto(Guid Id, string Username);
-public sealed record PostDto(Guid Id, UserDto Author, string Caption, List<string> ImageUrls, int LikeCount, int CommentCount, bool IsLikedByMe, bool IsSavedByMe);
+public sealed record PostDto(Guid Id, UserDto Author, string Caption, List<string> ImageUrls, string ThumbnailUrl, int LikeCount, int CommentCount, bool IsLikedByMe, bool IsSavedByMe);
 public sealed record PageDto<T>(List<T> Items, string? NextCursor);
 public sealed record LikeStatusDto(bool IsLikedByMe, int LikeCount);
 public sealed record FollowStatusDto(bool IsFollowedByMe, int FollowerCount);

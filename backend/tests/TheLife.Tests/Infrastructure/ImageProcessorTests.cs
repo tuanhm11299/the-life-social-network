@@ -83,9 +83,42 @@ public class ImageProcessorTests
         Assert.Contains("too many pixels", exception.Message);
     }
 
-    private static async Task<(byte[] Bytes, string Extension)> ProcessAsync(byte[] input)
+    [Fact]
+    public async Task Large_photos_are_shrunk_to_fit_keeping_their_shape()
     {
-        var result = await ImageProcessor.ProcessAsync(new MemoryStream(input), CancellationToken.None);
+        var result = await ProcessAsync(TestImages.Plain(3000, 2000), ImageSize.Photo);
+
+        var info = Image.Identify(result.Bytes);
+        Assert.Equal(1080, info.Width);
+        Assert.Equal(720, info.Height);
+    }
+
+    [Fact]
+    public async Task Small_photos_are_never_enlarged()
+    {
+        var result = await ProcessAsync(TestImages.Plain(200, 100), ImageSize.Photo);
+
+        var info = Image.Identify(result.Bytes);
+        Assert.Equal(200, info.Width);
+        Assert.Equal(100, info.Height);
+    }
+
+    [Theory]
+    [InlineData(3000, 2000, 320)] // landscape: the middle square, shrunk
+    [InlineData(1000, 4000, 320)] // tall: same
+    [InlineData(200, 100, 100)]   // smaller than a thumbnail: a square as big as the short side, not enlarged
+    public async Task Thumbnails_are_squares(int width, int height, int expectedSide)
+    {
+        var result = await ProcessAsync(TestImages.Plain(width, height), ImageSize.Thumbnail);
+
+        var info = Image.Identify(result.Bytes);
+        Assert.Equal(expectedSide, info.Width);
+        Assert.Equal(expectedSide, info.Height);
+    }
+
+    private static async Task<(byte[] Bytes, string Extension)> ProcessAsync(byte[] input, ImageSize? size = null)
+    {
+        var result = await ImageProcessor.ProcessAsync(new MemoryStream(input), size ?? ImageSize.Photo, CancellationToken.None);
         using var output = new MemoryStream();
         await result.Content.CopyToAsync(output);
         return (output.ToArray(), result.Extension);
